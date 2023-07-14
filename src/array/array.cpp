@@ -1,6 +1,57 @@
 #include <iostream>
+#define MAX 100
+
 
 using namespace std;
+
+int arr[MAX];
+int current_index = 0;
+
+void insertEnd(int elem) {
+    if (current_index == MAX-1) {
+        cout<<"Array full!"<<endl;
+        return;
+    } else {
+        arr[current_index] = elem;
+        current_index++;
+    }
+}
+
+void insertElements() {
+    int elem;
+    char choice;
+    while (true) {
+        cout<<"Enter elements"<<endl;
+        cin>>elem;
+        insertEnd(elem);
+        cout<<"Do you want to continue? (y/n)"<<endl;
+        cin>>choice;
+        if (choice == 'n') {
+            return;
+        }
+    }
+}
+
+void displayElements() {
+    if (current_index == 0) {
+        cout<<"Array empty!"<<endl;
+        return;
+    } else {
+        for (int i=0; i<current_index; i++) {
+            cout<<arr[i]<<" ";
+        }
+    }
+    cout<<endl;
+}
+
+void emptyArray() {
+    if (current_index == 0) {
+        cout<<"Array already empty!"<<endl;
+        return;
+    } else {
+        current_index = 0;
+    }
+}
 
 void searchMenu() {
     int choice;
@@ -107,21 +158,23 @@ void mainMenu() {
     while (true) {
         cout<<"Array Operations"<<endl;
         cout<<"1. Enter elements"<<endl;
-        cout<<"2. Search Menu"<<endl;
-        cout<<"3. Delete Menu"<<endl;
-        cout<<"4. Insert Menu"<<endl;
-        cout<<"5. Update Menu"<<endl;
-        cout<<"6. Empty array"<<endl;
+        cout<<"2. Display elements"<<endl;
+        cout<<"3. Search Menu"<<endl;
+        cout<<"4. Delete Menu"<<endl;
+        cout<<"5. Insert Menu"<<endl;
+        cout<<"6. Update Menu"<<endl;
+        cout<<"7. Empty array"<<endl;
         cout<<"0. Quit"<<endl;
         cin>>choice;
         switch (choice)
         {
-        case 1: break;
-        case 2: searchMenu(); break;
-        case 3: deleteMenu(); break;
-        case 4: insertMenu(); break;
-        case 5: updateMenu(); break;
-        case 6: break;
+        case 1: insertElements(); break;
+        case 2: displayElements(); break;
+        case 3: searchMenu(); break;
+        case 4: deleteMenu(); break;
+        case 5: insertMenu(); break;
+        case 6: updateMenu(); break;
+        case 7: emptyArray(); break;
         case 0: exit(0); break;
         default: cout<<"Invalid choice!"<<endl;
         }
