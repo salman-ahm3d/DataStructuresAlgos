@@ -20,7 +20,7 @@ void searchMenu() {
             case 4: break;
             case 5: break;
             case 0: return;
-            default: cout<<"Invalid choice!"; break;
+            default: cout<<"Invalid choice!"<<endl;
         }
     }
 }
@@ -47,7 +47,7 @@ void deleteMenu() {
             case 6: break;
             case 7: break;
             case 0: return;
-            default: cout<<"Invalid choice!";
+            default: cout<<"Invalid choice!"<<endl;
         }
     }
 }
@@ -72,7 +72,7 @@ void insertMenu() {
             case 5: break;
             case 6: break;
             case 0: return;
-            default: cout<<"Invalid choice!";
+            default: cout<<"Invalid choice!"<<endl;
         }
     }
 }
@@ -97,7 +97,7 @@ void updateMenu() {
             case 5: break;
             case 6: break;
             case 0: return;
-            default: cout<<"Invalid choice!";
+            default: cout<<"Invalid choice!"<<endl;
         }
     }
 }
@@ -122,8 +122,8 @@ void mainMenu() {
         case 4: insertMenu(); break;
         case 5: updateMenu(); break;
         case 6: break;
-        case 0: break;
-        default: cout<<"Invalid choice!";
+        case 0: exit(0); break;
+        default: cout<<"Invalid choice!"<<endl;
         }
     }
 }
@@ -131,5 +131,6 @@ void mainMenu() {
 
 
 int main() {
+    mainMenu();
     return 0;
 }
