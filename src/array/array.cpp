@@ -8,7 +8,36 @@ using namespace std;
 int arr[MAX];
 int current_index = -1;
 
+void updateStart(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        arr[0] = elem;
+        cout<<"Updated!"<<endl;
+    }
+}
 
+void updateEnd(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        arr[current_index] = elem;
+        cout<<"Updated!"<<endl;
+    }
+}
+
+void updateSpecific(int index, int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        if (index<=current_index && index>=0) {
+            arr[index] = elem;
+            cout<<"Updated!"<<endl;
+        } else {
+            cout<<"Invalid index"<<endl;
+        }
+    }
+}
 
 int searchElem(int elem) {
     if (current_index == -1) {
@@ -239,12 +268,32 @@ void updateMenu() {
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
-            case 1: break;
-            case 2: break;
+            case 1:{
+                int elem;
+                cout<<"Enter element to update"<<endl;
+                cin>>elem;
+                updateStart(elem);
+                break;
+            } 
+            case 2:{
+                int elem;
+                cout<<"Enter element to update"<<endl;
+                cin>>elem;
+                updateEnd(elem);
+                break;
+            } 
             case 3: break;
             case 4: break;
             case 5: break;
-            case 6: break;
+            case 6:{
+                int index, elem;
+                cout<<"Enter index at which to update"<<endl;
+                cin>>index;
+                cout<<"Enter new element"<<endl;
+                cin>>elem;
+                updateSpecific(index,elem);
+                break;
+            } 
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
