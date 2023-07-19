@@ -8,6 +8,16 @@ using namespace std;
 int arr[MAX];
 int current_index = -1;
 
+/*
+TODO:
+1. insertBefore()
+2. insertAfter()
+3. insertMultiple()
+4. insertSpecific()
+*/
+
+
+
 void updateStart(int elem) {
     if (current_index == -1) {
         cout<<"Array empty!"<<endl;
@@ -39,6 +49,7 @@ void updateSpecific(int index, int elem) {
     }
 }
 
+
 int searchElem(int elem) {
     if (current_index == -1) {
         cout<<"Array empty!"<<endl;
@@ -52,6 +63,70 @@ int searchElem(int elem) {
     }
     return returned_index;
 }
+
+void updateBefore(int elem, int _new) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            if ((res-1) == 0) {
+                updateStart(_new);
+            } else if (res-1<0) {
+                cout<<"Cannot update before start"<<endl;
+                return;
+            } else {
+                arr[res-1] = _new;
+                cout<<"Updated!"<<endl;
+            }
+        }
+    }
+}
+
+void updateAfter(int elem, int _new) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            if ((res+1) == current_index) {
+                updateEnd(_new);
+            } else if (res+1>current_index) {
+                cout<<"Cannot update after end"<<endl;
+                return;
+            } else {
+                arr[res+1] = _new;
+                cout<<"Updated!"<<endl;
+            }
+        }
+    }
+}
+
+void updateMultiple(int elem, int _new) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            while (res!=current_index+1) {
+                if (arr[res] == elem) {
+                    arr[res] = _new;
+                }
+                res++;
+            }
+            cout<<"Updated!"<<endl;
+        }
+    }
+} 
 
 void searchBefore(int elem) {
     int result = searchElem(elem);
@@ -80,6 +155,25 @@ void searchAfter(int elem) {
     }
 }
 
+void searchMultiple(int elem) {
+ if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            while (res!=current_index+1) {
+                if (arr[res] == elem) {
+                    cout<<"Found "<<elem<<" at index "<<res<<endl;
+                }
+                res++;
+            }
+        }
+    }   
+}
+
 void searchSpecific(int elem) {
     int result = searchElem(elem);
     if (result == -1) {
@@ -88,6 +182,18 @@ void searchSpecific(int elem) {
         cout<<"Found at index "<<result;
     }
     cout<<endl;
+}
+
+void searchSpecificIndex(int index) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        if (index<=current_index && index>=0) {
+            cout<<"Found "<<arr[index]<<" at index "<<index<<endl;
+        } else {
+            cout<<"Invalid index"<<endl;
+        }
+    }
 }
 
 
@@ -111,6 +217,136 @@ void insertEnd(int elem) {
     } else {
         current_index++;
         arr[current_index] = elem;
+    }
+}
+
+void deleteEnd() {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        current_index--;
+        cout<<"Deleted!"<<endl;
+    }
+}
+
+void deleteStart() {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl; /*1 2 3 4; 2 3 4 0*/
+    } else {
+        for (int i = 0; i<=current_index; i++) {
+            arr[i] = arr[i+1];
+        }
+        current_index--;
+        cout<<"Deleted!"<<endl;
+    }
+}
+
+void deleteSpecificIndex(int index) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        if (index < 0 || index > current_index) {
+            cout<<"Invalid index!"<<endl;
+        } else if (index == 0) {
+            deleteStart();
+        } else if (index == current_index) {
+            deleteEnd();
+        } else {
+            for (int i=index; i<=current_index; i++) {
+                arr[i] = arr[i+1];
+            }
+            current_index--;
+            cout<<"Deleted!"<<endl;
+        }
+    }
+}
+
+void deleteSpecific(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            if (res == 0) {
+            deleteStart();
+        } else if (res == current_index) {
+            deleteEnd();
+        } else {
+            for (int i=res; i<=current_index; i++) {
+                arr[i] = arr[i+1];
+            }
+            current_index--;
+            cout<<"Deleted!"<<endl;
+        }
+        }
+    }
+}
+
+void deleteBefore(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            if (res-1 < 0) {
+                cout<<"Cannot delete before start!"<<endl;
+            } else if (res-1 == 0) {
+                deleteStart();
+            } else {
+                for (int i=res-1; i<=current_index; i++) {
+                    arr[i] = arr[i+1];
+                }
+            current_index--;
+            cout<<"Deleted!"<<endl;
+            }
+        }
+    }
+}
+
+void deleteAfter(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            if (res+1 > current_index) {
+                cout<<"Cannot delete after end!"<<endl;
+            } else if (res+1 == current_index) {
+                deleteEnd();
+            } else {
+                for (int i=res+1; i<=current_index; i++) {
+                    arr[i] = arr[i+1];
+                }
+            current_index--;
+            cout<<"Deleted!"<<endl;
+            }
+        }
+    }
+}
+
+void deleteMultiple(int elem) {
+    if (current_index == -1) {
+        cout<<"Array empty!"<<endl;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+            return;
+        } else {
+            while (res!=-1) {
+                deleteSpecificIndex(res);
+                res = searchElem(elem);
+            }
+        }
     }
 }
 
@@ -183,8 +419,20 @@ void searchMenu() {
                 searchAfter(elem);
                 break;
             }
-            case 4: break;
-            case 5: break;
+            case 4:{
+                int elem;
+                cout<<"Enter element to be searched"<<endl;
+                cin>>elem;
+                searchMultiple(elem);
+                break;
+            } 
+            case 5:{
+                int index;
+                cout<<"Enter index at which to search"<<endl;
+                cin>>index;
+                searchSpecificIndex(index);
+                break;
+            } 
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
@@ -205,13 +453,43 @@ void deleteMenu() {
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
-            case 1: break;
-            case 2: break;
-            case 3: break;
-            case 4: break;
-            case 5: break;
-            case 6: break;
-            case 7: break;
+            case 1:{
+                int elem;
+                cout<<"Enter element to be deleted"<<endl;
+                cin>>elem;
+                deleteSpecific(elem);
+                break;
+            } 
+            case 2: deleteStart(); break;
+            case 3: deleteEnd(); break;
+            case 4:{
+                int elem;
+                cout<<"Enter element to be deleted before"<<endl;
+                cin>>elem;
+                deleteBefore(elem);
+                break;
+            } 
+            case 5:{
+                int elem;
+                cout<<"Enter element to be deleted after"<<endl;
+                cin>>elem;
+                deleteAfter(elem);
+                break;
+            } 
+            case 6:{
+                int elem;
+                cout<<"Enter element to be deleted"<<endl;
+                cin>>elem;
+                deleteMultiple(elem);
+                break;
+            }
+            case 7:{
+                int index;
+                cout<<"Enter index at which to delete"<<endl;
+                cin>>index;
+                deleteSpecificIndex(index);
+                break;
+            } 
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
@@ -282,9 +560,33 @@ void updateMenu() {
                 updateEnd(elem);
                 break;
             } 
-            case 3: break;
-            case 4: break;
-            case 5: break;
+            case 3:{
+                int elem, _new;
+                cout<<"Enter element to update"<<endl;
+                cin>>elem;
+                cout<<"Enter replacement"<<endl;
+                cin>>_new;
+                updateBefore(elem,_new);
+                break;
+            } 
+            case 4:{
+                int elem, _new;
+                cout<<"Enter element to update"<<endl;
+                cin>>elem;
+                cout<<"Enter replacement"<<endl;
+                cin>>_new;
+                updateAfter(elem,_new);
+                break;
+            }
+            case 5:{
+                int elem, _new;
+                cout<<"Enter element to update"<<endl;
+                cin>>elem;
+                cout<<"Enter replacement"<<endl;
+                cin>>_new;
+                updateMultiple(elem,_new);
+                break;
+            }
             case 6:{
                 int index, elem;
                 cout<<"Enter index at which to update"<<endl;
