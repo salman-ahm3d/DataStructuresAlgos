@@ -8,13 +8,6 @@ using namespace std;
 int arr[MAX];
 int current_index = -1;
 
-/*
-TODO:
-1. insertBefore()
-2. insertAfter()
-3. insertMultiple()
-4. insertSpecific()
-*/
 
 
 
@@ -207,16 +200,79 @@ void insertStart(int elem) {
             arr[i] = arr[i-1];
         }
         arr[0] = elem;
+        cout<<"Inserted!"<<endl;
     }
 }
 
 void insertEnd(int elem) {
-    if (current_index == MAX) {
+    if (current_index == MAX-1) {
         cout<<"Array full!"<<endl;
         return;
     } else {
         current_index++;
         arr[current_index] = elem;
+        cout<<"Inserted!"<<endl;
+    }
+}
+
+void insertSpecificIndex(int elem, int index) {
+    if (current_index == MAX-1) {
+        cout<<"Array full!"<<endl; /*1 2 2 3 4 5*/
+        return;
+    } else {
+        if (index >= current_index || index < 0) {
+            cout<<"Invalid index!"<<endl;
+        } else if (index == 0) {
+            insertStart(elem);
+        } else if (index == current_index) {
+            insertEnd(elem);
+        } else {
+            current_index++;
+            for (int i=current_index; i>index; i--) {
+                arr[i] = arr[i-1];
+            }
+            arr[index] = elem;
+            cout<<"Inserted!"<<endl;
+        }
+    }
+}
+
+void insertBefore(int elem, int _new) {
+    if (current_index == MAX-1) {
+        cout<<"Array full!"<<endl;
+        return;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            insertSpecificIndex(_new, res);
+        }
+    }
+}
+
+void insertAfter(int elem, int _new) {
+    if (current_index == MAX-1) {
+        cout<<"Array full!"<<endl;
+        return;
+    } else {
+        int res = searchElem(elem);
+        if (res == -1) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            insertSpecificIndex(_new, (res+1));
+        }
+    }
+}
+
+void insertMultiple(int elem, int count, int index) {
+    if (current_index == MAX-1) {
+        cout<<"Array full!"<<endl;
+        return;
+    } else {
+        for (int i = 0; i<count; i++) {
+            insertSpecificIndex(elem, index);
+        }
     }
 }
 
@@ -523,10 +579,44 @@ void insertMenu() {
                 insertEnd(elem);
                 break;
             } 
-            case 3: break;
-            case 4: break;
-            case 5: break;
-            case 6: break;
+            case 3: {
+                int elem, _new;
+                cout<<"Enter element to insert before"<<endl;
+                cin>>elem;
+                cout<<"Enter element to be inserted"<<endl;
+                cin>>_new;
+                insertBefore(elem, _new);
+                break;
+            } 
+            case 4: {
+                int elem, _new;
+                cout<<"Enter element to insert after"<<endl;
+                cin>>elem;
+                cout<<"Enter element to be inserted"<<endl;
+                cin>>_new;
+                insertAfter(elem, _new);
+                break;
+            } 
+            case 5: {
+                int elem, count, index;
+                cout<<"Enter element to be inserted"<<endl;
+                cin>>elem;
+                cout<<"Enter count of insertions"<<endl;
+                cin>>count;
+                cout<<"Enter index at which to insert"<<endl;
+                cin>>index;
+                insertMultiple(elem, count, index);
+                break;
+            } 
+            case 6: {
+                int elem, index;
+                cout<<"Enter element to be inserted"<<endl;
+                cin>>elem;
+                cout<<"Enter index at which to insert"<<endl;
+                cin>>index;
+                insertSpecificIndex(elem, index);
+                break;
+            } 
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
