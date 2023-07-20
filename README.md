@@ -13,7 +13,7 @@ In short, menu driven programs ensure that the data structure is implemented in 
 
 ## Data Structures
 
-- Arrays
+- Arrays ✔️
 - Singly Linked List
 - Doubly Linked List
 - Circular Singly Linked List
