@@ -22,6 +22,82 @@ void insertEnd(int data) {
     }
 }
 
+void insertStart(int data) {
+    node *p = new node;
+    p->data = data;
+    if (first == NULL) {
+        first = last = p;
+    } else {
+        p->next = first;
+        first = p;
+    }
+}
+
+void updateStart(int data) {
+    if (first==NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        first->data = data;
+    }
+}
+
+void updateEnd(int data) {
+    if (first==NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        last->data = data;
+    }
+}
+
+void deleteFirst() {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *temp = first;
+        first = first->next;
+        delete temp;
+    }
+}
+
+void deleteAll() {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        while (first!=NULL) {
+            deleteFirst();
+        }
+    }
+}
+
+node* searchNode(int data) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+        return NULL;
+    } else {
+        node *temp = first;
+        while (temp!=NULL) {
+            if (temp->data == data) {
+                return temp;
+            }
+            temp = temp->next;
+        }
+        return NULL;
+    }
+}
+
+void searchSpecific(int data) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *res = searchNode(data);
+        if (res==NULL) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            cout<<"Found "<<res->data<<endl;
+        }
+    }
+}
+
 void insertElements() {
     int elem;
     char choice;
@@ -67,7 +143,7 @@ void searchMenu() {
                 int elem;
                 cout<<"Enter element to be searched"<<endl;
                 cin>>elem;
-                //searchSpecific(elem);
+                searchSpecific(elem);
                 break;
             } 
             case 2: {
@@ -125,7 +201,7 @@ void deleteMenu() {
                 //deleteSpecific(elem);
                 break;
             } 
-            case 2: break;//deleteStart(); break;
+            case 2: deleteFirst(); break;
             case 3: break;//deleteEnd(); break;
             case 4:{
                 int elem;
@@ -178,7 +254,7 @@ void insertMenu() {
                 int elem;
                 cout<<"Enter element to be inserted"<<endl;
                 cin>>elem;
-                //insertStart(elem);
+                insertStart(elem);
                 break;
             } 
             case 2: {
@@ -249,14 +325,14 @@ void updateMenu() {
                 int elem;
                 cout<<"Enter element to update"<<endl;
                 cin>>elem;
-                //updateStart(elem);
+                updateStart(elem);
                 break;
             } 
             case 2:{
                 int elem;
                 cout<<"Enter element to update"<<endl;
                 cin>>elem;
-                //updateEnd(elem);
+                updateEnd(elem);
                 break;
             } 
             case 3:{
@@ -322,7 +398,7 @@ void mainMenu() {
         case 4: deleteMenu(); break;
         case 5: insertMenu(); break;
         case 6: updateMenu(); break;
-        case 7: break;//emptyArray(); break;
+        case 7: deleteAll(); break;
         case 0: exit(0); break;
         default: cout<<"Invalid choice!"<<endl;
         }
