@@ -59,6 +59,27 @@ void deleteFirst() {
     }
 }
 
+void deleteLast() {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+       if (first == last) {
+        delete first;
+        first = NULL;
+       } else {
+        node *q = first;
+        node *q1 = NULL;
+        while (q!=last) {
+            q1 = q;
+            q = q->next;
+        }
+        delete q;
+        last = q1;
+        last->next = NULL;
+       }
+    }
+}
+
 void deleteAll() {
     if (first == NULL) {
         cout<<"Linked list empty!"<<endl;
@@ -98,6 +119,118 @@ void searchSpecific(int data) {
     }
 }
 
+void searchAfter(int data) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *res = searchNode(data);
+        if (res->next==NULL) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            cout<<"Found "<<res->next->data<<endl;
+        }
+    }
+}
+
+void searchBefore(int data) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *q1 = NULL;
+        node *q = first;
+        while (q->data!=data) {
+            q1 = q;
+            q = q->next;
+        }
+        if (q == first) {
+            cout<<"Cannot search before first!"<<endl;
+        } else {
+            cout<<"Found "<<q1->data<<endl;
+        }
+    }
+}
+
+void searchMultiple(int data) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        int count = 0;
+        node *q = first;
+        while (q!=NULL) {
+            if (q->data == data) {
+                cout<<"Found "<<q->data<<endl;
+                count++;
+            }
+            q = q->next;
+        }
+        cout<<"Total occurences: "<<count<<endl;
+    }
+} 
+
+void updateAfter(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *res = searchNode(old);
+        if (res->next==NULL) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            res->next->data = _new;
+            cout<<"Updated!"<<endl;
+        }
+    }
+}
+
+void updateBefore(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *q1 = NULL;
+        node *q = first;
+        while (q->data!=old) {
+            q1 = q;
+            q = q->next;
+        }
+        if (q == first) {
+            cout<<"Cannot update before first!"<<endl;
+        } else {
+            q1->data = _new;
+            cout<<"Updated!"<<endl;
+        }
+    }
+}
+
+void updateMultiple(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        int count = 0;
+        node *q = first;
+        while (q!=NULL) {
+            if (q->data == old) {
+                q->data = _new;
+                count++;
+            }
+            q = q->next;
+        }
+        cout<<"Total occurences updated: "<<count<<endl;
+    }
+}
+
+void updateSpecific(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list empty!"<<endl;
+    } else {
+        node *target = searchNode(old);
+        if (target!=NULL) {
+            target->data = _new;
+            cout<<"Updated!"<<endl;
+        } else {
+            cout<<"Element not found!"<<endl;
+        }
+    }
+}
+
 void insertElements() {
     int elem;
     char choice;
@@ -127,6 +260,11 @@ void displayLinkedList() {
     cout<<endl;
 }
 
+void cleanExit() {
+    deleteAll();
+    exit(0);
+}
+
 void searchMenu() {
     int choice;
     while (true) {
@@ -150,21 +288,21 @@ void searchMenu() {
                 int elem;
                 cout<<"Enter element to search before"<<endl;
                 cin>>elem;
-                //searchBefore(elem);
+                searchBefore(elem);
                 break;
             } 
             case 3: {
                 int elem;
                 cout<<"Enter element to search after"<<endl;
                 cin>>elem;
-                //searchAfter(elem);
+                searchAfter(elem);
                 break;
             }
             case 4:{
                 int elem;
                 cout<<"Enter element to be searched"<<endl;
                 cin>>elem;
-                //searchMultiple(elem);
+                searchMultiple(elem);
                 break;
             } 
             case 5:{
@@ -202,7 +340,7 @@ void deleteMenu() {
                 break;
             } 
             case 2: deleteFirst(); break;
-            case 3: break;//deleteEnd(); break;
+            case 3: deleteLast(); break;
             case 4:{
                 int elem;
                 cout<<"Enter element to be deleted before"<<endl;
@@ -314,10 +452,10 @@ void updateMenu() {
         cout<<"Update Menu"<<endl;
         cout<<"1. Update at start"<<endl;
         cout<<"2. Update at end"<<endl;
-        cout<<"3. Update before specific element"<<endl;
-        cout<<"4. Update after specific element"<<endl;
-        cout<<"5. Update multiple occurrences of element"<<endl;
-        cout<<"6. Update element at specific index"<<endl;
+        cout<<"3. Update specific element"<<endl;
+        cout<<"4. Update before specific element"<<endl;
+        cout<<"5. Update after specific element"<<endl;
+        cout<<"6. Update multiple occurrences of element"<<endl;
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
@@ -334,43 +472,43 @@ void updateMenu() {
                 cin>>elem;
                 updateEnd(elem);
                 break;
-            } 
-            case 3:{
+            }
+            case 3: {
                 int elem, _new;
                 cout<<"Enter element to update"<<endl;
                 cin>>elem;
                 cout<<"Enter replacement"<<endl;
                 cin>>_new;
-                //updateBefore(elem,_new);
+                updateSpecific(elem, _new);
                 break;
-            } 
+            }
             case 4:{
                 int elem, _new;
                 cout<<"Enter element to update"<<endl;
                 cin>>elem;
                 cout<<"Enter replacement"<<endl;
                 cin>>_new;
-                //updateAfter(elem,_new);
+                updateBefore(elem,_new);
                 break;
-            }
+            } 
             case 5:{
                 int elem, _new;
                 cout<<"Enter element to update"<<endl;
                 cin>>elem;
                 cout<<"Enter replacement"<<endl;
                 cin>>_new;
-                //updateMultiple(elem,_new);
+                updateAfter(elem,_new);
                 break;
             }
             case 6:{
-                int index, elem;
-                cout<<"Enter index at which to update"<<endl;
-                cin>>index;
-                cout<<"Enter new element"<<endl;
+                int elem, _new;
+                cout<<"Enter element to update"<<endl;
                 cin>>elem;
-                //updateSpecific(index,elem);
+                cout<<"Enter replacement"<<endl;
+                cin>>_new;
+                updateMultiple(elem,_new);
                 break;
-            } 
+            }
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
@@ -399,7 +537,7 @@ void mainMenu() {
         case 5: insertMenu(); break;
         case 6: updateMenu(); break;
         case 7: deleteAll(); break;
-        case 0: exit(0); break;
+        case 0: cleanExit(); break;
         default: cout<<"Invalid choice!"<<endl;
         }
     }
