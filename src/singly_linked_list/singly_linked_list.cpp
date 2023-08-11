@@ -56,6 +56,7 @@ void deleteFirst() {
         node *temp = first;
         first = first->next;
         delete temp;
+        cout<<"Deleted!"<<endl;
     }
 }
 
@@ -76,6 +77,7 @@ void deleteLast() {
         delete q;
         last = q1;
         last->next = NULL;
+        cout<<"Deleted!"<<endl;
        }
     }
 }
@@ -247,6 +249,104 @@ void insertElements() {
     }
 }
 
+void deleteSpecific(int data) {
+    if (first == NULL) {
+        cout<<"Linked List is empty!"<<endl;
+    } else {
+        if (first->data == data) {
+            deleteFirst();
+        } else if (last->data == data) {
+            deleteLast();
+        } else {
+            node *q1 = NULL;
+            node *q = first;
+            while (q!=NULL) {
+                if (q->data == data) {
+                    break;
+                }
+                q1 = q;
+                q = q->next;
+            }
+
+            if (q == NULL) {
+                cout<<"Element not found!"<<endl;
+                return;
+            } else {
+                q1->next = q->next;
+                delete q;
+            }
+        }
+    }
+}
+
+void deleteAfter(int data) {
+    if (first == NULL) {
+        cout<<"Linked List is empty!"<<endl;
+    } else {
+        node *res = searchNode(data);
+        if (res == NULL) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            if (res == last) {
+                cout<<"Cannot delete after last!"<<endl;
+            } else if (res->next == last) {
+                deleteLast();
+            } else {
+                node *temp = res->next;
+                res->next = res->next->next;
+                delete temp;
+                cout<<"Deleted!"<<endl;
+            }
+        }
+    }
+}
+
+void deleteBefore(int data) {
+    if (first == NULL) {
+        cout<<"Linked List is empty!"<<endl;
+    } else {
+        node *q = first;
+        node *q1 = NULL;
+        node *q2 = NULL;
+        while (q!=NULL) {
+            if (q->data == data) {
+                break;
+            }
+            q2 = q1;
+            q1 = q;
+            q = q->next;
+        }
+        
+        if (q == NULL) {
+            cout<<"Element not found!"<<endl;
+        } else {
+            if (q == first) {
+                cout<<"Cannot delete before first!"<<endl;
+            } else if (q1 == first) {
+                deleteFirst();
+            } else {
+                node *temp = q1;
+                q2->next = q;
+                delete temp;
+                cout<<"Deleted!"<<endl;
+            }
+        }
+    }
+}
+
+void deleteMultiple(int data) {
+    if (first == NULL) {
+        cout<<"Linked List is empty!"<<endl;
+    } else {
+        node *res;
+        do {
+            deleteSpecific(data);
+            res = searchNode(data);
+        } while (res!=NULL);
+        cout<<"Deleted all instances!"<<endl;
+    }
+}
+
 void displayLinkedList() {
     if (first == NULL) {
         cout<<"Linked List is empty!"<<endl;
@@ -328,7 +428,6 @@ void deleteMenu() {
         cout<<"4. Delete before specific element"<<endl;
         cout<<"5. Delete after specific element"<<endl;
         cout<<"6. Delete multiple occurrences of element"<<endl;
-        cout<<"7. Delete element at specific index"<<endl;
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
@@ -336,7 +435,7 @@ void deleteMenu() {
                 int elem;
                 cout<<"Enter element to be deleted"<<endl;
                 cin>>elem;
-                //deleteSpecific(elem);
+                deleteSpecific(elem);
                 break;
             } 
             case 2: deleteFirst(); break;
@@ -345,30 +444,23 @@ void deleteMenu() {
                 int elem;
                 cout<<"Enter element to be deleted before"<<endl;
                 cin>>elem;
-                //deleteBefore(elem);
+                deleteBefore(elem);
                 break;
             } 
             case 5:{
                 int elem;
                 cout<<"Enter element to be deleted after"<<endl;
                 cin>>elem;
-                //deleteAfter(elem);
+                deleteAfter(elem);
                 break;
             } 
             case 6:{
                 int elem;
                 cout<<"Enter element to be deleted"<<endl;
                 cin>>elem;
-                //deleteMultiple(elem);
+                deleteMultiple(elem);
                 break;
             }
-            case 7:{
-                int index;
-                cout<<"Enter index at which to delete"<<endl;
-                cin>>index;
-                //deleteSpecificIndex(index);
-                break;
-            } 
             case 0: return;
             default: cout<<"Invalid choice!"<<endl;
         }
