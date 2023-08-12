@@ -4,7 +4,7 @@ using namespace std;
 
 struct node {
     int data;
-    node *next = NULL;
+    node *next = NULL;  
 };
 
 node *first = NULL;
@@ -360,6 +360,79 @@ void displayLinkedList() {
     cout<<endl;
 }
 
+void insertAfter(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list is empty!"<<endl;
+    } else {
+        node *res = searchNode(old);
+        if (res == NULL) {
+            cout<<"Element not found!"<<endl;
+        } else if (res == last) {
+            insertEnd(_new);
+            cout<<"Inserted!"<<endl;
+        } else {
+            node *p = new node;
+            p->data = _new;
+            p->next = res->next;
+            res->next = p;
+            cout<<"Inserted!"<<endl;
+        }
+    }
+}
+
+void insertBefore(int old, int _new) {
+    if (first == NULL) {
+        cout<<"Linked list is empty!"<<endl;
+    } else {
+        node *q1 = NULL;
+        node *q = first;
+        while (q!=NULL) {
+            if (q->data == old) {
+                break;
+            }
+            q1 = q;
+            q = q->next;
+        }
+        if (q == NULL) {
+            cout<<"Element not found!"<<endl;
+        } else if (q == first) {
+            insertStart(_new);
+            cout<<"Inserted!"<<endl;
+        } else {
+            node *p = new node;
+            p->data = _new;
+            p->next = q;
+            q1->next = p;
+            cout<<"Inserted!"<<endl;
+        }
+    }
+}
+
+void insertMultiple(int old, int _new, int count) {
+    if (first == NULL) {
+        cout<<"Linked list is empty!"<<endl;
+    } else {
+        node *res = searchNode(old);
+        if (res == NULL) {
+            cout<<"Element not found!"<<endl;
+        } else if (res == last) {
+            for (int i = 0; i<count; i++) {
+                insertEnd(_new);
+            }
+            cout<<"Inserted "<<count<<" times!"<<endl;
+        } else {
+            node *p;
+            for (int i = 0; i<count; i++) {
+                p = new node;
+                p->data = _new;
+                p->next = res->next;
+                res->next = p;
+            }
+            cout<<"Inserted "<<count<<" times!"<<endl;
+        }
+    }
+}
+
 void cleanExit() {
     deleteAll();
     exit(0);
@@ -373,7 +446,6 @@ void searchMenu() {
         cout<<"2. Search before specific element"<<endl;
         cout<<"3. Search after specific element"<<endl;
         cout<<"4. Search multiple occurrences of element"<<endl;
-        cout<<"5. Search element at specific index"<<endl;
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
@@ -403,13 +475,6 @@ void searchMenu() {
                 cout<<"Enter element to be searched"<<endl;
                 cin>>elem;
                 searchMultiple(elem);
-                break;
-            } 
-            case 5:{
-                int index;
-                cout<<"Enter index at which to search"<<endl;
-                cin>>index;
-                //searchSpecificIndex(index);
                 break;
             } 
             case 0: return;
@@ -476,7 +541,6 @@ void insertMenu() {
         cout<<"3. Insert before specific element"<<endl;
         cout<<"4. Insert after specific element"<<endl;
         cout<<"5. Insert multiple occurrences of element"<<endl;
-        cout<<"6. Insert element at specific index"<<endl;
         cout<<"0. Back to main menu"<<endl;
         cin>>choice;
         switch (choice) {
@@ -500,7 +564,7 @@ void insertMenu() {
                 cin>>elem;
                 cout<<"Enter element to be inserted"<<endl;
                 cin>>_new;
-                //insertBefore(elem, _new);
+                insertBefore(elem, _new);
                 break;
             } 
             case 4: {
@@ -509,27 +573,18 @@ void insertMenu() {
                 cin>>elem;
                 cout<<"Enter element to be inserted"<<endl;
                 cin>>_new;
-                //insertAfter(elem, _new);
+                insertAfter(elem, _new);
                 break;
             } 
             case 5: {
-                int elem, count, index;
+                int elem, count, target;
                 cout<<"Enter element to be inserted"<<endl;
                 cin>>elem;
                 cout<<"Enter count of insertions"<<endl;
                 cin>>count;
-                cout<<"Enter index at which to insert"<<endl;
-                cin>>index;
-                //insertMultiple(elem, count, index);
-                break;
-            } 
-            case 6: {
-                int elem, index;
-                cout<<"Enter element to be inserted"<<endl;
-                cin>>elem;
-                cout<<"Enter index at which to insert"<<endl;
-                cin>>index;
-                //insertSpecificIndex(elem, index);
+                cout<<"Enter element after which to insert"<<endl;
+                cin>>target;
+                insertMultiple(target, elem, count);
                 break;
             } 
             case 0: return;
